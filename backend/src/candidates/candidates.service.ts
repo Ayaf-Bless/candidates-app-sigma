@@ -7,6 +7,19 @@ import { DatabaseService } from '@app/database';
 export class CandidatesService {
   constructor(private readonly candidateRepositoryService: DatabaseService) {}
 
+  async createOrUpdate(createCandidateDto: CreateCandidateDto) {
+    let candidate = await this.candidateRepositoryService.findOne({
+      email: createCandidateDto.email,
+    });
+    if (candidate) {
+      candidate = { ...candidate, ...createCandidateDto };
+    } else {
+      candidate =
+        await this.candidateRepositoryService.create(createCandidateDto);
+    }
+    return this.candidateRepositoryService.save(candidate);
+  }
+
   async create(createCandidateDto: CreateCandidateDto) {
     return this.candidateRepositoryService.create(createCandidateDto);
   }

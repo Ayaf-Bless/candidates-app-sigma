@@ -17,7 +17,7 @@ export class CandidatesController {
 
   @Post()
   create(@Body() createCandidateDto: CreateCandidateDto) {
-    return this.candidatesService.create(createCandidateDto);
+    return this.candidatesService.createOrUpdate(createCandidateDto);
   }
 
   @Get()

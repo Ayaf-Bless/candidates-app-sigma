@@ -1,7 +1,9 @@
 import { Repository } from 'typeorm';
 import { DeepPartial } from 'typeorm/common/DeepPartial';
+import { Candidate } from '../entities/candidate.entity';
+import { BadRequestException } from '@nestjs/common';
 
-export abstract class AbstractDatabaseService<T> {
+export abstract class AbstractDatabaseService<T extends Candidate> {
   protected constructor(protected readonly repository: Repository<T>) {}
 
   async create(entity: DeepPartial<T>): Promise<T> {
@@ -9,16 +11,25 @@ export abstract class AbstractDatabaseService<T> {
     return this.repository.save(newEntity);
   }
 
-  async update(id: any, entity: any): Promise<T> {
-    await this.repository.update(id, entity);
-    return this.repository.findOne(id);
+  async update(email: string, entity: any): Promise<T> {
+    const candidate = await this.findOne(email);
+    if (!candidate) {
+      throw new BadRequestException(
+        'There is no a candidate linked with that email',
+      );
+    }
+    return this.repository.save({ ...entity });
   }
 
-  async findOne(id: any): Promise<T> {
-    return this.repository.findOne(id);
+  async findOne(email: any): Promise<T> {
+    return this.repository.findOne({ where: { email } });
   }
 
   async findAll(): Promise<T[]> {
     return this.repository.find();
+  }
+
+  async save(entity: DeepPartial<T>) {
+    return this.repository.save(entity);
   }
 }
