@@ -87,6 +87,11 @@ Caching is not implemented in this project because we are primarily performing w
   }
 ```
 
+## Others
+
+- implement honeypot security (though not asked but it made sense)
+- I used typescript on the frontend as well, I hope that's ok
+
 ## Improvements
 
 ### Frontend
