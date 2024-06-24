@@ -1,5 +1,17 @@
 import React, { useState } from 'react';
 
+interface FormData {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  callInterval: string;
+  linkedinProfile: string;
+  githubProfile: string;
+  comment: string;
+  honeypot: string;
+}
+
 const formStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
@@ -31,7 +43,7 @@ const hiddenStyle: React.CSSProperties = {
 };
 
 const CandidateForm: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
     phoneNumber: '',
@@ -57,13 +69,12 @@ const CandidateForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.honeypot) {
-        // bot detected, maybe collect useful data
-      return; 
+      //bot detected, depends on what we want to do, the logic will go here
+      return;
     }
 
-    const requiredFields = ['firstName', 'lastName', 'email', 'comment'];
+    const requiredFields: (keyof FormData)[] = ['firstName', 'lastName', 'email', 'comment'];
     for (const field of requiredFields) {
-        //@ts-expect-error
       if (!formData[field]) {
         setMessage(`Please fill out the ${field} field.`);
         setIsSuccess(false);
@@ -94,11 +105,6 @@ const CandidateForm: React.FC = () => {
           comment: '',
           honeypot: '',
         });
-        const data =  await response.json()
-
-        console.log(data);
-        
-        
       } else {
         setMessage('Error submitting candidate information');
         setIsSuccess(false);
