@@ -25,21 +25,21 @@ export class CandidatesController {
     return this.candidatesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.candidatesService.findOne(id);
+  @Get(':email')
+  findOne(@Param('email') email: string) {
+    return this.candidatesService.findOne(email);
   }
 
-  @Patch(':id')
+  @Patch(':email')
   update(
-    @Param('id') id: string,
+    @Param('email') email: string,
     @Body() updateCandidateDto: UpdateCandidateDto,
   ) {
-    return this.candidatesService.update(id, updateCandidateDto);
+    return this.candidatesService.update(email, updateCandidateDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.candidatesService.remove(id);
+  @Delete(':email')
+  remove(@Param('email') email: string) {
+    return this.candidatesService.remove(email);
   }
 }
