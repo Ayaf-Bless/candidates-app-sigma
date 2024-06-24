@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateCandidateDto } from './dto/create-candidate.dto';
 import { UpdateCandidateDto } from './dto/update-candidate.dto';
 import { DatabaseService } from '@app/database';
@@ -29,11 +29,15 @@ export class CandidatesService {
   }
 
   findAll() {
-    return `This action returns all candidates`;
+    return this.candidateRepositoryService.findAll();
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} candidate`;
+  async findOne(email: string) {
+    const candidate = await this.candidateRepositoryService.findOne(email);
+    if (!candidate) {
+      throw new BadRequestException('No found');
+    }
+    return candidate;
   }
 
   remove(id: string) {
