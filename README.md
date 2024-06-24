@@ -81,7 +81,7 @@ To make it easy to change databases if needed, I implemented an abstract class f
 Caching is not implemented in this project because we are primarily performing write operations. However, caching can be beneficial when an admin wants to retrieve all the candidates, possibly based on some search or sort criteria.
 
 ```ts
-  @Cacheable()
+  @UseInterceptors(CacheInterceptor)
   async findAll(): Promise<Candidate[]> {
     return this.candidateRepositoryService.findAll();
   }
