@@ -110,3 +110,7 @@ Caching is not implemented in this project because we are primarily performing w
 
 * Docker: Consider adding Docker support for easier deployment and environment setup.
 * Documentation: Improve API documentation using tools like Swagger.
+
+## Time spent on it
+
+Total time spent for the task : 2 hours
